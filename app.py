@@ -1,10 +1,9 @@
 #----------------------------------------------------------------------------#
 # Imports
 #----------------------------------------------------------------------------#
-from flask_migrate import  Migrate
 import json
 from sqlalchemy import and_
-
+import sys, setuptools, tokenize
 import re
 from sqlalchemy import func
 import dateutil.parser
@@ -14,8 +13,11 @@ from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 import logging
 from logging import Formatter, FileHandler
-from flask_wtf import Form as BaseForm
+from flask_wtf import Form 
 from forms import *
+from flask_migrate import  Migrate ,MigrateCommand
+
+
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
@@ -39,13 +41,13 @@ class Venue(db.Model):
     name = db.Column(db.String, nullable=False)
     city = db.Column(db.String(120), nullable=False)
     state = db.Column(db.String(120), nullable=False)
-    address = db.Column(db.String(120), nullable=False)
+    address = db.Column(db.String(200), nullable=False)
     phone = db.Column(db.String(120), nullable=False)
     image_link = db.Column(db.String(500))
-    facebook_link = db.Column(db.String(120))
+    facebook_link = db.Column(db.String(200))
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
     genres = db.Column(db.ARRAY(db.String),nullable=False)
-    website = db.Column(db.String(120))
+    website = db.Column(db.String(120),nullable=True)
     seeking_talent = db.Column(db.Boolean,default=False)
     seeking_description = db.Column(db.Text)
     upcoming_shows_count = db.Column(db.Integer, default=0)
@@ -68,7 +70,7 @@ class Artist(db.Model):
     image_link = db.Column(db.String(500))
     facebook_link = db.Column(db.String(120))
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
-    website = db.Column(db.String(120))
+    website = db.Column(db.String(120),nullable=True)
     seeking_venue = db.Column(db.Boolean,default=False)
     seeking_description = db.Column(db.Text)
     upcoming_shows_count = db.Column(db.Integer, default=0)
