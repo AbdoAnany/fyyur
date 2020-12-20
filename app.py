@@ -118,6 +118,7 @@ def venues():
   list_data=[]
   data=[]
   i=0
+
   Mylist = Venue.query.filter(Venue.city==Venue.city,Venue.state==Venue.state) .order_by(Venue.city).all()
   y={"city":'',"state":'',"venues":[]}
   for item in Mylist:
@@ -521,6 +522,7 @@ def show_artist(artist_id):
     }],
     "past_shows_count": 0,
     "upcoming_shows_count": 3, }
+  new_shows_query = Show.query.options(db.joinedload(Show.Artist)).filter(Show.artist_id == artist_id).all()
 
   artist = Artist.query.get(artist_id)
   shows = artist.shows
